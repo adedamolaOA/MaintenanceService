@@ -33,7 +33,7 @@ import javax.validation.constraints.Size;
  * @author Adedamola
  */
 @Entity
-@Table("property_item")
+@Table(name="property_items")
 public class PropertyItem extends UserDateAudit {
 
     @Id
@@ -49,7 +49,7 @@ public class PropertyItem extends UserDateAudit {
     private String propertyDescription;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private PropertyArea propertyArea;
+    private PropertyAreas propertyArea;
     public Long getId() {
         return id;
     }
@@ -74,11 +74,11 @@ public class PropertyItem extends UserDateAudit {
         this.propertyDescription = propertyDescription;
     }
     
-    public PropertyArea getPropertyArea(){
+    public PropertyAreas getPropertyArea(){
         return propertyArea;
     }
     
-    public void setPropertyArea(PropertyArea propertyArea){
+    public void setPropertyArea(PropertyAreas propertyArea){
         this.propertyArea = propertyArea;
     }
 

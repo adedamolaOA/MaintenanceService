@@ -24,22 +24,25 @@
 package com.intlipms.MaintenanceServices.model;
 
 import com.intlipms.MaintenanceServices.model.audit.UserDateAudit;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Adedamola
  */
+
 @Entity
-@Table("property_area")
-public class PropertyArea extends UserDateAudit{
+@Table(name = "property_areas")
+public class PropertyAreas extends UserDateAudit{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,18 +56,19 @@ public class PropertyArea extends UserDateAudit{
     @Size(max=120)
     private String areaDescription;
     
-    //One to many connection for Property Item
     @OneToMany(
             mappedBy = "property_area",
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER,
             orphanRemoval = true
     )
-    @Size(max=45)
+    @Size(min=1, max=45)
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 10)
     private List<PropertyItem> propertyItems = new ArrayList<>(); 
-            
+    
+    @NotNull
+    private Instant expirationDateTime;
 
     public Long getId() {
         return id;
@@ -90,6 +94,14 @@ public class PropertyArea extends UserDateAudit{
         this.areaDescription = areaDescription;
     }
     
+    public Instant getExpirationDateTime() {
+        return expirationDateTime;
+    }
+
+    public void setExpirationDateTime(Instant expirationDateTime) {
+        this.expirationDateTime = expirationDateTime;
+    }
+    
     public List<PropertyItem> getPropertyItems(){
         return propertyItems;
     }
@@ -106,8 +118,6 @@ public class PropertyArea extends UserDateAudit{
     public void removePropertyItem(PropertyItem propertyItem){        
         propertyItems.remove(propertyItem);
         propertyItem.setPropertyArea(null);
-    }
-    
-    
-    
+    }   
+        
 }
