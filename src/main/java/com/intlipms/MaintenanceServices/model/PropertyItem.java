@@ -48,7 +48,8 @@ public class PropertyItem extends UserDateAudit {
     @Size(max = 120)
     private String propertyDescription;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "property_area_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)    
     private PropertyAreas propertyArea;
     public Long getId() {
         return id;

@@ -46,6 +46,7 @@ public class PropertyAreas extends UserDateAudit{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name ="property_area_id")
     private Long id;
 
     @NotBlank
@@ -57,7 +58,7 @@ public class PropertyAreas extends UserDateAudit{
     private String areaDescription;
     
     @OneToMany(
-            mappedBy = "property_area",
+            mappedBy = "propertyArea",
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER,
             orphanRemoval = true
