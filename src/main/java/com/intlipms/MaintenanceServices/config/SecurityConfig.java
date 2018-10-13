@@ -114,6 +114,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .permitAll()
                     .antMatchers(HttpMethod.GET, "/api/maintenancerequest/**", "/api/users/**")
                         .permitAll()
+                .antMatchers(HttpMethod.GET, "/api/property/**", "/api/property/area/**")
+                        .permitAll()
                     .anyRequest()
                         .authenticated();
 
