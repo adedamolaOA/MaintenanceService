@@ -21,21 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.intlipms.MaintenanceServices.repository;
-
-import com.intlipms.MaintenanceServices.model.PropertyAreas;
-import java.util.List;
-
-import java.util.Optional;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+package com.intlipms.MaintenanceServices.utils;
 
 /**
  *
  * @author Adedamola
  */
-@Repository
-public interface PropertyAreaRepository extends JpaRepository<PropertyAreas, Long>{
-    Optional<PropertyAreas> findById(long id);
-    List<PropertyAreas> findByIdIn(List<Long> areaIds);
+public interface AppConstants {
+    String DEFAULT_PAGE_NUMBER = "0";
+    String DEFAULT_PAGE_SIZE = "30";
+
+    int MAX_PAGE_SIZE = 50;
 }

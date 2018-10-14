@@ -27,7 +27,6 @@ package com.intlipms.MaintenanceServices.config;
  *
  * @author Adedamola
  */
-
 import com.intlipms.MaintenanceServices.security.CustomUserDetailsService;
 import com.intlipms.MaintenanceServices.security.JwtAuthenticationEntryPoint;
 import com.intlipms.MaintenanceServices.security.JwtAuthenticationFilter;
@@ -55,6 +54,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         prePostEnabled = true
 )
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
     CustomUserDetailsService customUserDetailsService;
 
@@ -88,17 +88,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .cors()
-                    .and()
+                .and()
                 .csrf()
-                    .disable()
+                .disable()
                 .exceptionHandling()
-                    .authenticationEntryPoint(unauthorizedHandler)
-                    .and()
+                .authenticationEntryPoint(unauthorizedHandler)
+                .and()
                 .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                    .and()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeRequests()
-                    .antMatchers("/",
+                .antMatchers("/",
                         "/favicon.ico",
                         "/**/*.png",
                         "/**/*.gif",
@@ -107,17 +107,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js")
-                        .permitAll()
-                    .antMatchers("/api/auth/**")
-                        .permitAll()
-                    .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
-                        .permitAll()
-                    .antMatchers(HttpMethod.GET, "/api/maintenancerequest/**", "/api/users/**")
-                        .permitAll()
-                .antMatchers(HttpMethod.GET, "/api/property/**", "/api/property/area/**")
-                        .permitAll()
-                    .anyRequest()
-                        .authenticated();
+                .permitAll()
+                .antMatchers("/api/auth/**")
+                .permitAll()
+                .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
+                .permitAll()
+                .antMatchers("/api/property/**", "/api/property/**")
+                .permitAll()
+                .antMatchers(HttpMethod.GET, "/api/property/**", "/api/users/**")
+                .permitAll()           
+                .anyRequest()
+                .authenticated();
 
         // Add our custom JWT security filter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

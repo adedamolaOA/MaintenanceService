@@ -21,21 +21,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.intlipms.MaintenanceServices.repository;
-
-import com.intlipms.MaintenanceServices.model.PropertyAreas;
-import java.util.List;
-
-import java.util.Optional;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+package com.intlipms.MaintenanceServices.payload;
 
 /**
  *
  * @author Adedamola
  */
-@Repository
-public interface PropertyAreaRepository extends JpaRepository<PropertyAreas, Long>{
-    Optional<PropertyAreas> findById(long id);
-    List<PropertyAreas> findByIdIn(List<Long> areaIds);
+public class UserSummary {
+    private Long id;
+    private String username;
+    private String name;
+
+    public UserSummary(Long id, String username, String name) {
+        this.id = id;
+        this.username = username;
+        this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

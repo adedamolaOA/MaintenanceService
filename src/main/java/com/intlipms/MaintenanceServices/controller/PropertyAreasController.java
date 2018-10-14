@@ -29,17 +29,23 @@ import com.intlipms.MaintenanceServices.model.Role;
 import com.intlipms.MaintenanceServices.model.RoleName;
 import com.intlipms.MaintenanceServices.model.User;
 import com.intlipms.MaintenanceServices.payload.ApiResponse;
+import com.intlipms.MaintenanceServices.payload.PropertyAreaRequest;
+import com.intlipms.MaintenanceServices.payload.PropertyAreaResponse;
 import com.intlipms.MaintenanceServices.repository.PropertyAreaRepository;
+import com.intlipms.MaintenanceServices.services.MaintenanceService;
 import java.net.URI;
 import java.time.Instant;
 import java.util.Collections;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,30 +60,29 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RequestMapping("/api/property")
 public class PropertyAreasController {
 
-    @Autowired
-    AuthenticationManager authenticationManager;
+  
     
     @Autowired
     PropertyAreaRepository propertyAreaRepository;
+    
+    @Autowired
+    MaintenanceService maintenanceService;
 
-    @PostMapping("/area")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody PropertyAreas propertyAreasRequest) {
+    @PostMapping
+    @PreAuthorize("isAnonymous()")
+    public ResponseEntity<?> createPropertyArea(@Valid @RequestBody PropertyAreaRequest propertyAreasRequest) {
 
         // Creating Property Area 
-        PropertyAreas propertyAreas = new PropertyAreas();
-        propertyAreas.setAreaDescription(propertyAreasRequest.getAreaDescription());
-        propertyAreas.setAreaName(propertyAreasRequest.getAreaDescription());
-        propertyAreas.setExpirationDateTime(Instant.EPOCH);
-        //propertyAreas.setAreaDescription(propertyAreasRequest.getAreaDescription());
-        //propertyAreas.setAreaDescription(propertyAreasRequest.getAreaDescription());
-        
-        PropertyAreas result = propertyAreaRepository.save(propertyAreas);
+        PropertyAreas propertyAreas = maintenanceService.createPropertyArea(propertyAreasRequest);
+
         URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/api/property/area/{areaName}")
-                .buildAndExpand(result.getAreaName()).toUri();
+                .fromCurrentRequest().path("/{areaId}")
+                .buildAndExpand(propertyAreas.getId()).toUri();       
 
         return ResponseEntity.created(location).body(new ApiResponse(true, "Property Area created successfully"));
 
     }
+    
+    
 
 }

@@ -21,21 +21,57 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.intlipms.MaintenanceServices.repository;
+package com.intlipms.MaintenanceServices.payload;
 
-import com.intlipms.MaintenanceServices.model.PropertyAreas;
+import com.intlipms.MaintenanceServices.model.PropertyItem;
+import java.util.ArrayList;
 import java.util.List;
-
-import java.util.Optional;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
  * @author Adedamola
  */
-@Repository
-public interface PropertyAreaRepository extends JpaRepository<PropertyAreas, Long>{
-    Optional<PropertyAreas> findById(long id);
-    List<PropertyAreas> findByIdIn(List<Long> areaIds);
+public class PropertyAreaRequest {
+
+    @NotBlank
+    @Size(max = 20)
+    private String areaName;
+
+    @NotBlank
+    @Size(max = 120)
+    private String areaDescription;
+
+    @NotNull
+    @Size(min = 2, max = 6)
+    @Valid
+    private List<PropertyItem> propertyItems = new ArrayList<>();
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
+    }
+
+    public String getAreaDescription() {
+        return areaDescription;
+    }
+
+    public void setAreaDescription(String areaDescription) {
+        this.areaDescription = areaDescription;
+    }
+
+    public List<PropertyItem> getPropertyItems() {
+        return propertyItems;
+    }
+
+    public void setPropertyItems(List<PropertyItem> propertyItem) {
+        this.propertyItems = propertyItem;
+    }
+
 }
